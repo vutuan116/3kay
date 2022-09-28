@@ -113,3 +113,32 @@ function genHistoryAll() {
     $('#tbl_history_all').empty();
     $('#tbl_history_all').html(html);
 }
+
+function genTableScore() {
+    var html = "";
+
+    for (i = 0; i < listPlayer.length; i++) {
+        html = html + `<tr><td scope="row"><input class="form-check-input" name="scr_pler" type="radio" id="scr_pler_` + i + `" value="` + i + `"><label class="form-check-label pl-1" for="scr_pler_` + i + `">` + listPlayer[i].name + `</label></td><td class="text-end">` + listPlayer[i].score + `</td><td class="text-end td_drink"><input type="number" class="tbox_drink" value="` + listPlayer[i].drink + `" onchange="drinkChange(` + i + `, this.value)"></td><td class="text-end">` + listPlayer[i].total + `</td></tr>`;
+    }
+    $('#tbl_score').empty();
+    $('#tbl_score').html(html);
+
+    html = "";
+    for (i = 0; i < historyValue.length; i++) {
+        if (historyValue[i].type == "+") {
+            html = html + `<tr><td class="text-center">` + historyValue[i].time + `</td><td  class="text-center">` + listPlayer[historyValue[i].index].name + `</td><td class="text-center">` + historyValue[i].type + `</td></tr>`;
+        } else {
+            html = html + `<tr class="delete_score"><td class="text-center">` + historyValue[i].time + `</td><td  class="text-center">` + listPlayer[historyValue[i].index].name + `</td><td class="text-center">` + historyValue[i].type + `</td></tr>`;
+        }
+    }
+    $('#tbl_history').empty();
+    $('#tbl_history').html(html);
+}
+
+function drinkChange(index, value) {
+    value = isNaN(parseInt(value)) ? 0 : parseInt(value) > 0 ? parseInt(value) * (-1) : parseInt(value);
+    listPlayer[index].total = parseInt(listPlayer[index].total) - listPlayer[index].drink + value;
+    listPlayer[index].drink = isNaN(value) ? 0 : value;
+    genTableScore();
+    saveData();
+}
