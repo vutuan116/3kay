@@ -41,3 +41,41 @@ $('#add_Person_btn').click(function () {
     genListPlayer();
     $('#add_Person_txt').val("")
 });
+
+$('#new_game_btn').click(function () {
+    keySalt++;
+    keyGame = new Date().yyyyMMdd() + "_" + keySalt;
+
+    $('#div_add_player').hide();
+    $('#div_main').show();
+
+    listPlayer.forEach(x => {
+        x.total = 0;
+        x.score = 0;
+        x.drink = 0;
+    })
+    historyValue = [];
+
+    genTableScore();
+    saveData();
+});
+
+$('#continues_btn').click(function () {
+    $('#div_add_player').hide();
+    $('#div_main').show();
+    genTableScore();
+    saveData();
+});
+
+function initData() {
+    keyGame = window.localStorage.getItem("keyGame");
+    listPlayer = JSON.parse(window.localStorage.getItem("listPlayer"));
+    historyValue = JSON.parse(window.localStorage.getItem("historyValue"));
+    historyAll = JSON.parse(window.localStorage.getItem("historyAll"));
+    if (!keyGame) keyGame = new Date().yyyyMMdd() + "_" + keySalt;
+    if (!listPlayer) listPlayer = [];
+    if (!historyValue) historyValue = [];
+    if (!historyAll) historyAll = [];
+
+    keySalt = keyGame.split("_")[1];
+}
