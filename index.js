@@ -79,3 +79,37 @@ function initData() {
 
     keySalt = keyGame.split("_")[1];
 }
+
+function deletePlayer(index) {
+    if (confirm("Confirm delete " + listPlayer[index].name + "?")) {
+        listPlayer.splice(index, 1);
+        genListPlayer();
+        showAddPlayerModal();
+    }
+}
+
+function showAddPlayerModal() {
+    $('#div_add_player').show();
+}
+
+function genListPlayer() {
+    var html = "";
+    for (i = 0; i < listPlayer.length; i++) {
+        html = html + `<div class="p-1" style="padding-left: 1rem !important;"><label class="form-check-label"> - <b>` + listPlayer[i].name + `</b></label> &nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-outline-danger btn-sm p-0 px-1 ml-1" onclick="deletePlayer(` + i + `)">delete</button></div>`;
+    }
+    $('#div_show_player').empty();
+    $('#div_show_player').html(html);
+}
+
+function genHistoryAll() {
+    var html = "";
+    historyAll.forEach(x => {
+        html = html + `<tr><td class="td_id" colspan="4">` + x.id + `</td></tr>`
+        for (i = 0; i < x.player.length; i++) {
+            html = html + `<tr><td scope="row">` + x.player[i].name + `</td><td class="text-end">` + x.player[i].score + `</td><td class="text-end td_drink">` + x.player[i].drink + `</td><td class="text-end">` + x.player[i].total + `</td></tr>`;
+        }
+    })
+
+    $('#tbl_history_all').empty();
+    $('#tbl_history_all').html(html);
+}
