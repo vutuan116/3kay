@@ -46,3 +46,18 @@ function saveData() {
     }
     window.localStorage.setItem("historyAll", JSON.stringify(historyAll));
 }
+
+function deletePlayer(index) {
+    if (confirm("Confirm delete " + listPlayer[index].name + "?")) {
+        listPlayer.splice(index, 1);
+        genListPlayer();
+        showAddPlayerModal();
+    }
+}
+
+function deleteHistoryAll(id){
+    let hisAl = historyAll.find(x=>x.id==id);
+    let index = historyAll.indexOf(hisAl);
+    historyAll.splice(index, 1);
+    genHistoryAll();
+}

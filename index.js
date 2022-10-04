@@ -76,16 +76,8 @@ function initData() {
     if (!listPlayer) listPlayer = [];
     if (!historyValue) historyValue = [];
     if (!historyAll) historyAll = [];
-
+    
     keySalt = keyGame.split("_")[1];
-}
-
-function deletePlayer(index) {
-    if (confirm("Confirm delete " + listPlayer[index].name + "?")) {
-        listPlayer.splice(index, 1);
-        genListPlayer();
-        showAddPlayerModal();
-    }
 }
 
 function showAddPlayerModal() {
@@ -104,7 +96,7 @@ function genListPlayer() {
 function genHistoryAll() {
     var html = "";
     historyAll.forEach(x => {
-        html = html + `<tr><td class="td_id" colspan="4">` + x.id + `</td></tr>`
+        html = html + `<tr><td class="td_id bdr-r-w-0" colspan="3">` + x.id + `</td><td class="text-end td_id bdr-l-w-0"><button type="button" class="btn btn-outline-danger btn-sm pt-0 pb-0" onclick="deleteHistoryAll('`+x.id+`')">delete</button></td></tr>`
         for (i = 0; i < x.player.length; i++) {
             html = html + `<tr><td scope="row">` + x.player[i].name + `</td><td class="text-end">` + x.player[i].score + `</td><td class="text-end td_drink">` + x.player[i].drink + `</td><td class="text-end">` + x.player[i].total + `</td></tr>`;
         }
