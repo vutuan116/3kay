@@ -55,9 +55,12 @@ function deletePlayer(index) {
     }
 }
 
-function deleteHistoryAll(id){
-    let hisAl = historyAll.find(x=>x.id==id);
-    let index = historyAll.indexOf(hisAl);
-    historyAll.splice(index, 1);
-    genHistoryAll();
+function deleteHistoryAll(id) {
+    let hisAl = historyAll.find(x => x.id == id);
+
+    if (confirm("Confirm delete " + hisAl.id + "?")) {
+        let index = historyAll.indexOf(hisAl);
+        historyAll.splice(index, 1);
+        genHistoryAll();
+    }
 }
