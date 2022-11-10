@@ -17,10 +17,10 @@ Date.prototype.hhmmss = function () {
 
 Date.prototype.yyyyMMdd = function () {
     var hh = this.getFullYear();
-    var MM = this.getMonth();
-    var ss = this.getDay();
+    var MM = this.getMonth() + 1;
+    var dd = this.getDate();
 
-    return [hh < 10 ? '0' + hh : hh, MM < 10 ? '0' + MM : MM, ss < 10 ? '0' + ss : ss].join('/');
+    return [hh < 10 ? '0' + hh : hh, MM < 10 ? '0' + MM : MM, dd < 10 ? '0' + dd : dd].join('/');
 };
 
 
@@ -43,7 +43,11 @@ $('#add_Person_btn').click(function () {
 });
 
 $('#new_game_btn').click(function () {
-    keySalt++;
+    if (keyGame.split('_')[0] == new Date().yyyyMMdd()) {
+        keySalt++;
+    } else {
+        keySalt = 1;
+    }
     keyGame = new Date().yyyyMMdd() + "_" + keySalt;
 
     $('#div_add_player').hide();
@@ -68,16 +72,23 @@ $('#continues_btn').click(function () {
 });
 
 function initData() {
-    keyGame = window.localStorage.getItem("keyGame");
+    dfValue = window.localStorage.getItem("DF_VALUE");
     listPlayer = JSON.parse(window.localStorage.getItem("listPlayer"));
     historyValue = JSON.parse(window.localStorage.getItem("historyValue"));
     historyAll = JSON.parse(window.localStorage.getItem("historyAll"));
-    if (!keyGame) keyGame = new Date().yyyyMMdd() + "_" + keySalt;
+
     if (!listPlayer) listPlayer = [];
     if (!historyValue) historyValue = [];
     if (!historyAll) historyAll = [];
-    
-    keySalt = keyGame.split("_")[1];
+    if (dfValue) DF_VALUE = dfValue;
+
+    if (historyAll.length==0) {
+        keySalt = 0;
+        keyGame = new Date().yyyyMMdd() + "_" + keySalt;
+    }else{
+        keyGame = historyAll[0].id;
+        keySalt = keyGame.split("_")[1];
+    }
 }
 
 function showAddPlayerModal() {
@@ -96,7 +107,7 @@ function genListPlayer() {
 function genHistoryAll() {
     var html = "";
     historyAll.forEach(x => {
-        html = html + `<tr><td class="td_id bdr-r-w-0" colspan="3">` + x.id + `</td><td class="text-end td_id bdr-l-w-0"><button type="button" class="btn btn-outline-danger btn-sm pt-0 pb-0" onclick="deleteHistoryAll('`+x.id+`')">delete</button></td></tr>`
+        html = html + `<tr><td class="td_id bdr-r-w-0" colspan="3">` + x.id + `</td><td class="text-end td_id bdr-l-w-0"><button type="button" class="btn btn-outline-danger btn-sm pt-0 pb-0" onclick="deleteHistoryAll('` + x.id + `')">delete</button></td></tr>`
         for (i = 0; i < x.player.length; i++) {
             html = html + `<tr><td scope="row">` + x.player[i].name + `</td><td class="text-end">` + x.player[i].score + `</td><td class="text-end td_drink">` + x.player[i].drink + `</td><td class="text-end">` + x.player[i].total + `</td></tr>`;
         }

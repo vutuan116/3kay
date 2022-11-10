@@ -37,7 +37,6 @@ function decreaseScore(playerIndex) {
 function saveData() {
     window.localStorage.setItem("listPlayer", JSON.stringify(listPlayer));
     window.localStorage.setItem("historyValue", JSON.stringify(historyValue));
-    window.localStorage.setItem("keyGame", keyGame);
     let currentPlayer = historyAll.find(x => x.id == keyGame);
     if (currentPlayer) {
         currentPlayer.player = listPlayer;
@@ -62,5 +61,14 @@ function deleteHistoryAll(id) {
         let index = historyAll.indexOf(hisAl);
         historyAll.splice(index, 1);
         genHistoryAll();
+    }
+}
+
+function configClick(){
+    var regex = new RegExp("^([0-9]+)$");
+    value = prompt("Enter the default bet value", DF_VALUE);
+    if (regex.test(value)){
+        DF_VALUE = value;
+        window.localStorage.setItem("DF_VALUE", DF_VALUE);
     }
 }
