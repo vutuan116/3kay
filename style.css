@@ -6,6 +6,10 @@
     padding-bottom: 0;
 }
 
+.fw-500 {
+    font-weight: 400;
+}
+
 .td_drink {
     width: 1%;
 }
@@ -33,6 +37,11 @@ td {
 .w-btn {
     min-width: 140px;
 }
+
+.w-20per {
+    width: 20%;
+}
+
 
 .bdr-r-w-0 {
     border-right-width: 0px !important;

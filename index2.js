@@ -70,5 +70,7 @@ function configClick(){
     if (regex.test(value)){
         DF_VALUE = value;
         window.localStorage.setItem("DF_VALUE", DF_VALUE);
+    }else if (value=="F"){
+        window.location.href = "phom.html";
     }
 }

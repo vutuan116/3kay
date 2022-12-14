@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>3Kay</title>
+    <title>Fom</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
@@ -12,7 +12,7 @@
 
 <body style="max-width: 480px;">
     <div class="container m-auto">
-        <h1 class="text-center mt-3">3Kay</h1>
+        <h1 class="text-center mt-3">Fom</h1>
         <div class="p-2 row" id="div_add_player">
             <div class="row mb-1">
                 <div class="col-10">
@@ -57,8 +57,6 @@
                         <tr>
                             <th scope="col" class="text-center">Name</th>
                             <th scope="col" class="text-center">Score</th>
-                            <th scope="col" class="text-center">Drink</th>
-                            <th scope="col" class="text-center">Total</th>
                         </tr>
                     </thead>
                     <tbody id="tbl_history_all">
@@ -74,9 +72,8 @@
                     <thead>
                         <tr>
                             <th scope="col" class="text-center">Name</th>
+                            <th scope="col" class="text-center">Temp</th>
                             <th scope="col" class="text-center">Score</th>
-                            <th scope="col" class="text-center">Drink</th>
-                            <th scope="col" class="text-center">Total</th>
                         </tr>
                     </thead>
                     <tbody id="tbl_score">
@@ -86,43 +83,74 @@
                                 <label class="form-check-label pl-1" for="scr_pler_2">Tỉnh
                                 </label>
                             </td>
-                            <td class="text-end">8</td>
-                            <td class="text-end td_drink"><input class="tbox_drink" value="0"
-                                    onchange="drinkChange(0, this.value)"></td>
-                            <td class="text-end">-80</td>
+                            <td class="text-end" id="scr_temp_2">
+                                -80
+                            </td>
+                            <td class="text-end" id="score_2">-800</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="row p-3">
-                <div class="col-2"></div>
-                <div class="col-4">
-                    <button type="button" class="btn btn-success w-100" onclick="increaseScore(-1)">
-                        <b><i class="fas fa-plus"></i></b>
+            <div class="row p-2 pt-0">
+                <div class="col p-1">
+                    <button type="button" class="btn btn-danger w-100 p-1 fw-500" id="decre_1" onclick="increaseScore(-1)"></button>
+                </div>
+                <div class="col p-1">
+                    <button type="button" class="btn btn-danger w-100 p-1 fw-500" id="decre_2" onclick="increaseScore(-2)"></button>
+                </div>
+                <div class="col p-1">
+                    <button type="button" class="btn btn-danger w-100 p-1 fw-500" id="decre_3" onclick="increaseScore(-3)"></button>
+                </div>
+                <div class="col p-1">
+                    <button type="button" class="btn btn-danger w-100 p-1 fw-500" id="decre_4" onclick="increaseScore(-4)"></button>
+                </div>
+                <div class="col p-1">
+                    <button type="button" class="btn btn-danger w-100 p-1 fw-500" id="decre_5" onclick="increaseScore(-5)"></button>
+                </div>
+            </div>
+            <div class="row p-2 pt-0">
+                <div class="col p-1">
+                    <button type="button" class="btn btn-success w-100 p-1 fw-500" id="incre_1" onclick="increaseScore(1)"></button>
+                </div>
+                <div class="col p-1">
+                    <button type="button" class="btn btn-success w-100 p-1 fw-500" id="incre_2" onclick="increaseScore(2)"></button>
+                </div>
+                <div class="col p-1">
+                    <button type="button" class="btn btn-success w-100 p-1 fw-500" id="incre_3" onclick="increaseScore(3)"></button>
+                </div>
+                <div class="col p-1">
+                    <button type="button" class="btn btn-success w-100 p-1 fw-500" id="incre_4" onclick="increaseScore(4)"></button>
+                </div>
+                <div class="col p-1">
+                    <button type="button" class="btn btn-success w-100 p-1 fw-500" id="incre_5" onclick="increaseScore(5)"></button>
+                </div>
+            </div>
+            <div class="row p-3 justify-content-md-center">
+                <div class="col-md-auto">
+                    <button type="button" class="btn btn-primary w-100" id="btnAddScore" onclick="AddScore()">
+                        <b>Add Score</b>
                     </button>
                 </div>
-                <div class="col-4">
-                    <button type="button" class="btn btn-danger w-100" onclick="decreaseScore(-1)">
-                        <b><i class="fas fa-minus"></i></b>
-                    </button>
-                </div>
-                <div class="col-2"></div>
             </div>
             <div class="row p-2">
                 <h2>History</h2>
                 <table class="table table-bordered" style="font-size: 16px; font-weight: 600;">
                     <thead>
-                        <tr>
-                            <th scope="col" class="text-center">Time</th>
-                            <th scope="col" class="text-center">Name</th>
-                            <th scope="col" class="text-center">Type</th>
+                        <tr id="tbl_history_header">
+                            <th class="w-20per text-center"><i class="far fa-clock"></i></th>
+                            <th class="w-20per text-center">Lan</th>
+                            <th class="w-20per text-center">Thành</th>
+                            <th class="w-20per text-center">Túan</th>
+                            <th class="w-20per text-center">Vân</th>
                         </tr>
                     </thead>
-                    <tbody id="tbl_history">
+                    <tbody id="tbl_history_body">
                         <tr>
-                            <td class="text-center">8</td>
-                            <td scope="row">Tỉnh</td>
-                            <td class="text-end">+</td>
+                            <td class="text-center">10:48</td>
+                            <td class="text-end">+10</td>
+                            <td class="text-end">+60</td>
+                            <td class="text-end">+80</td>
+                            <td class="text-end">-100</td>
                         </tr>
                     </tbody>
                 </table>
@@ -132,8 +160,7 @@
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="help.js"></script>
-    <script src="index.js"></script>
-    <script src="index2.js"></script>
+    <script src="phom.js"></script>
 </body>
 
 </html>
