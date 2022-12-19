@@ -10,7 +10,15 @@ function genTableScore() {
                     <input class="form-check-input" type="radio" id="scr_pler_${i}" name="scr_pler" value="${i}">
                     <label class="form-check-label pl-1" for="scr_pler_${i}">${listPlayer[i].name}</label>
                 </td>
-                <td class="text-end" id="scrTemp_${i}">${listPlayer[i].scrTemp}</td>
+                <td class="text-end">`;
+        if (isAutoBalanceScr && i == playerAutoBalance){
+            html = html + `<i class="fad fa-fan circle_loop on" onclick="AutoClick(this,${i})"></i>`;
+        }else{
+            html = html + `<i class="fad fa-fan circle_loop" onclick="AutoClick(this,${i})"></i>`;
+        }
+        html = html +
+                `<span  id="scrTemp_${i}">${listPlayer[i].scrTemp}</span>
+                </td>
                 <td class="text-end" id="score_${i}"> ${listPlayer[i].score}</td>
             </tr>`;
         htmlHis = htmlHis +
@@ -35,8 +43,11 @@ function genTableScore() {
     $('#tbl_history_header').html(htmlHis);
     $('#tbl_history_body').empty();
     $('#tbl_history_body').html(html);
-    
+
     $('#btnAddScore').prop('disabled', true);
+    if (isAutoBalanceScr){
+        $("#scr_pler_"+playerAutoBalance).prop('disabled', true);
+    }
 }
 
 function saveData() {
@@ -80,11 +91,11 @@ function configClick() {
 
 function increaseScore(value) {
     value = value * DF_VALUE;
-    deviant = deviant + value;
-    $('#btnAddScore').prop('disabled', !deviant == 0);
-
+    
     playerIndex = $("input[name=scr_pler]:checked").val();
     if (!playerIndex) return;
+
+    deviant = deviant + value;
 
     for (i = 0; i < listPlayer.length; i++) {
         if (i == playerIndex) {
@@ -94,17 +105,58 @@ function increaseScore(value) {
         }
     }
     $("#scrTemp_" + playerIndex).html(value);
+    if (isAutoBalanceScr){
+        listPlayer[playerAutoBalance].scrTemp = listPlayer[playerAutoBalance].scrTemp + deviant*(-1);
+        $("#scrTemp_" + playerAutoBalance).html(listPlayer[playerAutoBalance].scrTemp);
+        deviant = 0;
+    }
+
+    $('#btnAddScore').prop('disabled', !deviant == 0);
 }
 
 function AddScore() {
-
-    historyValue.unshift({ time: new Date().hhmmss()});
+    var isBlank = true;
+    historyValue.unshift({ time: new Date().hhmmss() });
     for (i = 0; i < listPlayer.length; i++) {
+        historyValue[0]["scr" + i] = listPlayer[i].scrTemp;
+        if (listPlayer[i].scrTemp == 0) {
+            continue;
+        } else {
+            isBlank = false;
+        }
         listPlayer[i].score = listPlayer[i].score + listPlayer[i].scrTemp;
-        historyValue[0]["scr"+i] = listPlayer[i].scrTemp;
         listPlayer[i].scrTemp = 0;
     }
-
-    saveData();
+    if (isBlank) {
+        historyValue.shift();
+    } else {
+        saveData();
+    }
     genTableScore();
+}
+
+function AutoClick(fan, indexPlayer) {
+    var classLst = fan.className;
+    if (classLst.includes("on")) {
+        fan.classList.remove("on");
+        isAutoBalanceScr = false;
+        $("#scr_pler_"+indexPlayer).prop('disabled', false);
+    } else {
+        if (!isAutoBalanceScr) {
+            fan.classList.add("on");
+            isAutoBalanceScr = true;
+            playerAutoBalance = indexPlayer;
+        } else {
+            var autoBtnList = $(".circle_loop");
+            autoBtnList.each(x => {
+                autoBtnList[x].classList.remove("on");
+                $("#scr_pler_"+x).prop('disabled', false);
+            });
+            fan.classList.add("on");
+            playerAutoBalance = indexPlayer;
+        }
+    }
+    if (isAutoBalanceScr){
+        $("#scr_pler_"+indexPlayer).prop('disabled', true);
+    }
 }

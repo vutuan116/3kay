@@ -58,3 +58,24 @@ td {
     font-size: 32px;
     opacity: 0.5;
 }
+
+.circle_loop{
+    float: left;
+    color: rgb(173, 173, 30);
+    margin-top: 0.25rem;
+    border: 0.5px;
+}
+.circle_loop.on{
+    animation: circle 1s linear infinite;
+    color: green;
+    font-weight: bold;
+}
+
+@keyframes circle{
+    0%{
+        transform:rotate(0deg);
+    }
+    100%{
+        transform:rotate(-360deg);
+    }
+}
