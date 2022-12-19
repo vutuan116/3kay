@@ -87,6 +87,7 @@ function configClick() {
         DF_VALUE = value;
         window.localStorage.setItem("DF_VALUE_F", DF_VALUE);
     }
+    genBtnDeInScore();
 }
 
 function increaseScore(value) {
